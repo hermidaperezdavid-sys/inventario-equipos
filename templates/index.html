@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Inventario de Equipos</title>
+</head>
+<body>
+    <h1>📋 Inventario de Equipos</h1>
+
+    <p>Total de equipos: {{ equipos|length }}</p>
+
+    <table border="1" cellpadding="6">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Tipo</th>
+                <th>Marca</th>
+                <th>Modelo</th>
+                <th>Nº Serie</th>
+                <th>Estado</th>
+                <th>Asignado a</th>
+                <th>Ubicación</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for equipo in equipos %}
+            <tr>
+                <td>{{ equipo["id"] }}</td>
+                <td>{{ equipo["nombre"] }}</td>
+                <td>{{ equipo["tipo"] }}</td>
+                <td>{{ equipo["marca"] }}</td>
+                <td>{{ equipo["modelo"] }}</td>
+                <td>{{ equipo["numero_serie"] }}</td>
+                <td>{{ equipo["estado"] }}</td>
+                <td>{{ equipo["asignado_a"] }}</td>
+                <td>{{ equipo["ubicacion"] }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

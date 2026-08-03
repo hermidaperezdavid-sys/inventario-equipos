@@ -1,0 +1,14 @@
+# Base de datos (se genera con crear_db.py, no se versiona)
+inventario.db
+
+# Entorno virtual de Python (lo veremos más adelante)
+venv/
+.venv/
+
+# Archivos temporales de Python
+__pycache__/
+*.pyc
+
+# Configuración de editores
+.vscode/
+.idea/

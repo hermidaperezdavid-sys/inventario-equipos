@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <title>Editar equipo — Inventario</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='estilo.css') }}">
 </head>
 <body>
     <h1>✏️ Editar equipo</h1>
 
-    <p><a href="{{ url_for('index') }}">⬅ Volver a la lista</a></p>
+    <p><a class="volver" href="{{ url_for('index') }}">⬅ Volver a la lista</a></p>
 
-    <!-- El formulario ENVÍA a /editar/<id> del MISMO equipo. -->
     <form method="POST" action="{{ url_for('editar', id=equipo['id']) }}">
 
         <p>
@@ -89,7 +89,7 @@
         </p>
 
         <p>
-            <button type="submit">Guardar cambios</button>
+            <button type="submit" class="boton">Guardar cambios</button>
         </p>
     </form>
 </body>

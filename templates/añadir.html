@@ -3,14 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <title>Añadir equipo — Inventario</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='estilo.css') }}">
 </head>
 <body>
     <h1>➕ Añadir equipo</h1>
 
-    <p><a href="{{ url_for('index') }}">⬅ Volver a la lista</a></p>
+    <p><a class="volver" href="{{ url_for('index') }}">⬅ Volver a la lista</a></p>
 
-    <!-- method="POST": el formulario ENVÍA datos a Flask.
-         action: a qué ruta los envía (la misma /anadir). -->
     <form method="POST" action="{{ url_for('anadir') }}">
 
         <p>
@@ -85,13 +84,4 @@
         </p>
         <p>
             <label>Notas:<br>
-                <textarea name="notas" rows="3" cols="40"></textarea>
-            </label>
-        </p>
-
-        <p>
-            <button type="submit">Guardar equipo</button>
-        </p>
-    </form>
-</body>
-</html>
+                <textarea name="notas" rows="3"

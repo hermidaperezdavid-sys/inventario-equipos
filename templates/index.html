@@ -40,6 +40,12 @@
                 <td>{{ equipo["ubicacion"] }}</td>
                 <td>
                     <a href="{{ url_for('editar', id=equipo['id']) }}">✏️ Editar</a>
+                    &nbsp;|&nbsp;
+                    <form method="POST" action="{{ url_for('borrar', id=equipo['id']) }}"
+                          style="display:inline;"
+                          onsubmit="return confirm('¿Seguro que quieres borrar este equipo?');">
+                        <button type="submit">🗑️ Borrar</button>
+                    </form>
                 </td>
             </tr>
             {% endfor %}

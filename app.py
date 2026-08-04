@@ -180,3 +180,25 @@ def editar(id):
     # GET: buscamos el equipo y mostramos el formulario relleno.
     equipo = obtener_equipo(id)
     return render_template("editar.html", equipo=equipo)
+# ------------------------------------------------------------
+#  FUNCIÓN: borrar un equipo por su id
+# ------------------------------------------------------------
+def eliminar_equipo(id):
+    conexion = sqlite3.connect(BASE_DATOS)
+    cursor = conexion.cursor()
+
+    # DELETE con WHERE id = ? -> borra SOLO ese equipo.
+    # Igual que en UPDATE: sin el WHERE, borraría TODA la tabla.
+    # Y el id parametrizado con ? (viene de fuera, no es fiable).
+    cursor.execute("DELETE FROM equipos WHERE id = ?", (id,))
+
+    conexion.commit()
+    conexion.close()
+    # ------------------------------------------------------------
+#  RUTA: borrar un equipo ("/borrar/<id>")  — SOLO POST.
+#  No hay GET: borrar no se muestra, se ejecuta y se vuelve.
+# ------------------------------------------------------------
+@app.route("/borrar/<int:id>", methods=["POST"])
+def borrar(id):
+    eliminar_equipo(id)
+    return redirect(url_for("index"))

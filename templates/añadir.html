@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Añadir equipo — Inventario</title>
+</head>
+<body>
+    <h1>➕ Añadir equipo</h1>
+
+    <p><a href="{{ url_for('index') }}">⬅ Volver a la lista</a></p>
+
+    <!-- method="POST": el formulario ENVÍA datos a Flask.
+         action: a qué ruta los envía (la misma /anadir). -->
+    <form method="POST" action="{{ url_for('anadir') }}">
+
+        <p>
+            <label>Nombre (obligatorio):<br>
+                <input type="text" name="nombre" required>
+            </label>
+        </p>
+        <p>
+            <label>Tipo:<br>
+                <input type="text" name="tipo" placeholder="Portátil, Sobremesa, Servidor...">
+            </label>
+        </p>
+        <p>
+            <label>Marca:<br>
+                <input type="text" name="marca">
+            </label>
+        </p>
+        <p>
+            <label>Modelo:<br>
+                <input type="text" name="modelo">
+            </label>
+        </p>
+        <p>
+            <label>Nº de serie:<br>
+                <input type="text" name="numero_serie">
+            </label>
+        </p>
+        <p>
+            <label>Procesador:<br>
+                <input type="text" name="procesador">
+            </label>
+        </p>
+        <p>
+            <label>RAM:<br>
+                <input type="text" name="ram" placeholder="8 GB, 16 GB...">
+            </label>
+        </p>
+        <p>
+            <label>Almacenamiento:<br>
+                <input type="text" name="almacenamiento" placeholder="256 GB SSD...">
+            </label>
+        </p>
+        <p>
+            <label>Sistema operativo:<br>
+                <input type="text" name="sistema_op">
+            </label>
+        </p>
+        <p>
+            <label>Estado:<br>
+                <select name="estado">
+                    <option value="Activo">Activo</option>
+                    <option value="En reparación">En reparación</option>
+                    <option value="Almacén">Almacén</option>
+                    <option value="De baja">De baja</option>
+                </select>
+            </label>
+        </p>
+        <p>
+            <label>Asignado a:<br>
+                <input type="text" name="asignado_a">
+            </label>
+        </p>
+        <p>
+            <label>Ubicación:<br>
+                <input type="text" name="ubicacion">
+            </label>
+        </p>
+        <p>
+            <label>Fecha de compra:<br>
+                <input type="date" name="fecha_compra">
+            </label>
+        </p>
+        <p>
+            <label>Notas:<br>
+                <textarea name="notas" rows="3" cols="40"></textarea>
+            </label>
+        </p>
+
+        <p>
+            <button type="submit">Guardar equipo</button>
+        </p>
+    </form>
+</body>
+</html>

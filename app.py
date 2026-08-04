@@ -4,9 +4,10 @@
 # ============================================================
 
 import sqlite3
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, flash
 
 app = Flask(__name__)
+app.secret_key = "inventario-clave-secreta-cambiar-en-produccion"
 
 BASE_DATOS = "inventario.db"
 
@@ -133,12 +134,25 @@ def anadir():
 @app.route("/editar/<int:id>", methods=["GET", "POST"])
 def editar(id):
     if request.method == "POST":
+        nombre = request.form.get("nombre", "").strip()
+        numero_serie = request.form.get("numero_serie", "").strip()
+
+        # --- VALIDACIÓN ---
+        if not nombre:
+            flash("⚠️ El nombre es obligatorio.")
+            return redirect(url_for("editar", id=id))
+
+        if numero_serie_existe(numero_serie, ignorar_id=id):
+            flash("⚠️ Ya existe otro equipo con ese número de serie.")
+            return redirect(url_for("editar", id=id))
+        # --- fin validación ---
+
         datos = (
-            request.form.get("nombre", ""),
+            nombre,
             request.form.get("tipo", ""),
             request.form.get("marca", ""),
             request.form.get("modelo", ""),
-            request.form.get("numero_serie", ""),
+            numero_serie,
             request.form.get("procesador", ""),
             request.form.get("ram", ""),
             request.form.get("almacenamiento", ""),
@@ -150,10 +164,10 @@ def editar(id):
             request.form.get("notas", ""),
         )
         actualizar_equipo(id, datos)
+        flash("✅ Cambios guardados correctamente.")
         return redirect(url_for("index"))
     equipo = obtener_equipo(id)
     return render_template("editar.html", equipo=equipo)
-
 
 # ------------------------------------------------------------
 #  RUTA: borrar un equipo ("/borrar/<id>") — SOLO POST.
@@ -169,3 +183,31 @@ def borrar(id):
 # ------------------------------------------------------------
 if __name__ == "__main__":
     app.run(debug=True)
+    # ------------------------------------------------------------
+#  FUNCIÓN: comprobar si ya existe un nº de serie
+#  (ignorar_id sirve para que al EDITAR un equipo no choque
+#   consigo mismo). Devuelve True si está repetido.
+# ------------------------------------------------------------
+def numero_serie_existe(numero_serie, ignorar_id=None):
+    # Un nº de serie vacío no cuenta como duplicado.
+    if not numero_serie.strip():
+        return False
+
+    conexion = sqlite3.connect(BASE_DATOS)
+    cursor = conexion.cursor()
+
+    if ignorar_id is None:
+        cursor.execute(
+            "SELECT id FROM equipos WHERE numero_serie = ?",
+            (numero_serie,)
+        )
+    else:
+        # Al editar, excluimos el propio equipo de la búsqueda.
+        cursor.execute(
+            "SELECT id FROM equipos WHERE numero_serie = ? AND id != ?",
+            (numero_serie, ignorar_id)
+        )
+
+    encontrado = cursor.fetchone()
+    conexion.close()
+    return encontrado is not None

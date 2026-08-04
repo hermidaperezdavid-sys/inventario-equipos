@@ -8,6 +8,14 @@
 <body>
     <h1>📋 Inventario de Equipos</h1>
 
+    {% with mensajes = get_flashed_messages() %}
+        {% if mensajes %}
+            {% for mensaje in mensajes %}
+                <p class="flash">{{ mensaje }}</p>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
     <p><a class="boton" href="{{ url_for('anadir') }}">➕ Añadir equipo</a></p>
 
     <p class="contador">Total de equipos: {{ equipos|length }}</p>

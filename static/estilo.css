@@ -118,3 +118,14 @@ textarea:focus {
 .volver:hover {
     text-decoration: underline;
 }
+
+/* --- Mensajes flash --- */
+.flash {
+    background-color: #fff4e5;
+    border-left: 4px solid #d9822b;
+    color: #7a4a12;
+    padding: 10px 14px;
+    border-radius: 5px;
+    margin: 12px 0;
+    max-width: 500px;
+}

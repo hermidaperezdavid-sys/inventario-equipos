@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Editar equipo — Inventario</title>
+</head>
+<body>
+    <h1>✏️ Editar equipo</h1>
+
+    <p><a href="{{ url_for('index') }}">⬅ Volver a la lista</a></p>
+
+    <!-- El formulario ENVÍA a /editar/<id> del MISMO equipo. -->
+    <form method="POST" action="{{ url_for('editar', id=equipo['id']) }}">
+
+        <p>
+            <label>Nombre (obligatorio):<br>
+                <input type="text" name="nombre" value="{{ equipo['nombre'] }}" required>
+            </label>
+        </p>
+        <p>
+            <label>Tipo:<br>
+                <input type="text" name="tipo" value="{{ equipo['tipo'] }}">
+            </label>
+        </p>
+        <p>
+            <label>Marca:<br>
+                <input type="text" name="marca" value="{{ equipo['marca'] }}">
+            </label>
+        </p>
+        <p>
+            <label>Modelo:<br>
+                <input type="text" name="modelo" value="{{ equipo['modelo'] }}">
+            </label>
+        </p>
+        <p>
+            <label>Nº de serie:<br>
+                <input type="text" name="numero_serie" value="{{ equipo['numero_serie'] }}">
+            </label>
+        </p>
+        <p>
+            <label>Procesador:<br>
+                <input type="text" name="procesador" value="{{ equipo['procesador'] }}">
+            </label>
+        </p>
+        <p>
+            <label>RAM:<br>
+                <input type="text" name="ram" value="{{ equipo['ram'] }}">
+            </label>
+        </p>
+        <p>
+            <label>Almacenamiento:<br>
+                <input type="text" name="almacenamiento" value="{{ equipo['almacenamiento'] }}">
+            </label>
+        </p>
+        <p>
+            <label>Sistema operativo:<br>
+                <input type="text" name="sistema_op" value="{{ equipo['sistema_op'] }}">
+            </label>
+        </p>
+        <p>
+            <label>Estado:<br>
+                <select name="estado">
+                    <option value="Activo"        {% if equipo['estado'] == 'Activo' %}selected{% endif %}>Activo</option>
+                    <option value="En reparación" {% if equipo['estado'] == 'En reparación' %}selected{% endif %}>En reparación</option>
+                    <option value="Almacén"       {% if equipo['estado'] == 'Almacén' %}selected{% endif %}>Almacén</option>
+                    <option value="De baja"       {% if equipo['estado'] == 'De baja' %}selected{% endif %}>De baja</option>
+                </select>
+            </label>
+        </p>
+        <p>
+            <label>Asignado a:<br>
+                <input type="text" name="asignado_a" value="{{ equipo['asignado_a'] }}">
+            </label>
+        </p>
+        <p>
+            <label>Ubicación:<br>
+                <input type="text" name="ubicacion" value="{{ equipo['ubicacion'] }}">
+            </label>
+        </p>
+        <p>
+            <label>Fecha de compra:<br>
+                <input type="date" name="fecha_compra" value="{{ equipo['fecha_compra'] }}">
+            </label>
+        </p>
+        <p>
+            <label>Notas:<br>
+                <textarea name="notas" rows="3" cols="40">{{ equipo['notas'] }}</textarea>
+            </label>
+        </p>
+
+        <p>
+            <button type="submit">Guardar cambios</button>
+        </p>
+    </form>
+</body>
+</html>

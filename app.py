@@ -107,3 +107,76 @@ def anadir():
 
     # Si llega un GET, mostramos el formulario vacío.
     return render_template("anadir.html")
+
+# ------------------------------------------------------------
+#  FUNCIÓN: leer UN equipo por su id
+# ------------------------------------------------------------
+def obtener_equipo(id):
+    conexion = sqlite3.connect(BASE_DATOS)
+    conexion.row_factory = sqlite3.Row
+    cursor = conexion.cursor()
+
+    # ? también aquí: el id viene de la URL, así que lo tratamos
+    # como dato no fiable -> parametrizado, nunca f-string.
+    cursor.execute("SELECT * FROM equipos WHERE id = ?", (id,))
+    equipo = cursor.fetchone()   # UNA sola fila (o None si no existe)
+
+    conexion.close()
+    return equipo
+
+
+# ------------------------------------------------------------
+#  FUNCIÓN: actualizar un equipo existente
+# ------------------------------------------------------------
+def actualizar_equipo(id, datos):
+    conexion = sqlite3.connect(BASE_DATOS)
+    cursor = conexion.cursor()
+
+    # UPDATE cambia una fila que YA existe. El WHERE id = ? es
+    # CRÍTICO: sin él, actualizaría TODOS los equipos a la vez.
+    # Fíjate en el orden: primero los 14 valores, y el id AL FINAL
+    # (porque en la consulta el ? del id va el último).
+    cursor.execute(
+        """
+        UPDATE equipos SET
+            nombre = ?, tipo = ?, marca = ?, modelo = ?,
+            numero_serie = ?, procesador = ?, ram = ?,
+            almacenamiento = ?, sistema_op = ?, estado = ?,
+            asignado_a = ?, ubicacion = ?, fecha_compra = ?, notas = ?
+        WHERE id = ?
+        """,
+        datos + (id,)   # los 14 datos + el id al final
+    )
+
+    conexion.commit()
+    conexion.close()
+    # ------------------------------------------------------------
+#  RUTA: editar un equipo ("/editar/<id>")
+#  GET -> muestra el formulario relleno. POST -> guarda cambios.
+# ------------------------------------------------------------
+@app.route("/editar/<int:id>", methods=["GET", "POST"])
+def editar(id):
+    if request.method == "POST":
+        # Mismos 14 campos que en añadir.
+        datos = (
+            request.form.get("nombre", ""),
+            request.form.get("tipo", ""),
+            request.form.get("marca", ""),
+            request.form.get("modelo", ""),
+            request.form.get("numero_serie", ""),
+            request.form.get("procesador", ""),
+            request.form.get("ram", ""),
+            request.form.get("almacenamiento", ""),
+            request.form.get("sistema_op", ""),
+            request.form.get("estado", ""),
+            request.form.get("asignado_a", ""),
+            request.form.get("ubicacion", ""),
+            request.form.get("fecha_compra", ""),
+            request.form.get("notas", ""),
+        )
+        actualizar_equipo(id, datos)
+        return redirect(url_for("index"))
+
+    # GET: buscamos el equipo y mostramos el formulario relleno.
+    equipo = obtener_equipo(id)
+    return render_template("editar.html", equipo=equipo)

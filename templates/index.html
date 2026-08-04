@@ -3,15 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <title>Inventario de Equipos</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='estilo.css') }}">
 </head>
 <body>
     <h1>📋 Inventario de Equipos</h1>
 
-    <p><a href="{{ url_for('anadir') }}">➕ Añadir equipo</a></p>
+    <p><a class="boton" href="{{ url_for('anadir') }}">➕ Añadir equipo</a></p>
 
-    <p>Total de equipos: {{ equipos|length }}</p>
+    <p class="contador">Total de equipos: {{ equipos|length }}</p>
 
-    <table border="1" cellpadding="6">
+    <table>
         <thead>
             <tr>
                 <th>ID</th>
@@ -39,12 +40,12 @@
                 <td>{{ equipo["asignado_a"] }}</td>
                 <td>{{ equipo["ubicacion"] }}</td>
                 <td>
-                    <a href="{{ url_for('editar', id=equipo['id']) }}">✏️ Editar</a>
+                    <a class="volver" href="{{ url_for('editar', id=equipo['id']) }}">✏️ Editar</a>
                     &nbsp;|&nbsp;
                     <form method="POST" action="{{ url_for('borrar', id=equipo['id']) }}"
                           style="display:inline;"
                           onsubmit="return confirm('¿Seguro que quieres borrar este equipo?');">
-                        <button type="submit">🗑️ Borrar</button>
+                        <button type="submit" class="boton boton-peligro">🗑️ Borrar</button>
                     </form>
                 </td>
             </tr>

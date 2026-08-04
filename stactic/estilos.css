@@ -1,0 +1,120 @@
+/* ============================================================
+   INVENTARIO DE EQUIPOS — estilo.css
+   Estilo limpio y sobrio para la app.
+   ============================================================ */
+
+/* --- Base --- */
+body {
+    font-family: -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+    background-color: #f4f5f7;
+    color: #1f2933;
+    margin: 0;
+    padding: 24px;
+    line-height: 1.5;
+}
+
+h1 {
+    font-size: 1.6rem;
+    color: #1f3a5f;
+    margin-bottom: 4px;
+}
+
+/* --- Enlaces de acción tipo botón --- */
+.boton {
+    display: inline-block;
+    background-color: #1f3a5f;
+    color: #ffffff;
+    text-decoration: none;
+    padding: 8px 14px;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    border: none;
+    cursor: pointer;
+}
+.boton:hover {
+    background-color: #2c4f7c;
+}
+
+/* Botón de peligro (borrar) */
+.boton-peligro {
+    background-color: #b02a2a;
+}
+.boton-peligro:hover {
+    background-color: #c94040;
+}
+
+/* --- Contador de equipos --- */
+.contador {
+    color: #52606d;
+    font-size: 0.95rem;
+    margin: 12px 0 20px 0;
+}
+
+/* --- Tabla --- */
+table {
+    border-collapse: collapse;
+    width: 100%;
+    background-color: #ffffff;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+thead {
+    background-color: #1f3a5f;
+    color: #ffffff;
+}
+
+th, td {
+    text-align: left;
+    padding: 10px 12px;
+    border-bottom: 1px solid #e4e7eb;
+    font-size: 0.9rem;
+}
+
+/* Filas alternas (efecto "cebra") para leer mejor */
+tbody tr:nth-child(even) {
+    background-color: #f7f8fa;
+}
+tbody tr:hover {
+    background-color: #eef2f7;
+}
+
+/* --- Formularios (añadir / editar) --- */
+form label {
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: #3e4c59;
+}
+
+input[type="text"],
+input[type="date"],
+select,
+textarea {
+    width: 100%;
+    max-width: 400px;
+    padding: 7px 9px;
+    margin-top: 3px;
+    border: 1px solid #cbd2d9;
+    border-radius: 5px;
+    font-size: 0.9rem;
+    box-sizing: border-box;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+    outline: none;
+    border-color: #1f3a5f;
+    box-shadow: 0 0 0 2px rgba(31, 58, 95, 0.15);
+}
+
+/* --- Enlace de volver --- */
+.volver {
+    color: #1f3a5f;
+    text-decoration: none;
+    font-size: 0.9rem;
+}
+.volver:hover {
+    text-decoration: underline;
+}

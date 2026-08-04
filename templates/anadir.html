@@ -8,6 +8,14 @@
 <body>
     <h1>➕ Añadir equipo</h1>
 
+    {% with mensajes = get_flashed_messages() %}
+        {% if mensajes %}
+            {% for mensaje in mensajes %}
+                <p class="flash">{{ mensaje }}</p>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
     <p><a class="volver" href="{{ url_for('index') }}">⬅ Volver a la lista</a></p>
 
     <form method="POST" action="{{ url_for('anadir') }}">
@@ -84,4 +92,13 @@
         </p>
         <p>
             <label>Notas:<br>
-                <textarea name="notas" rows="3"
+                <textarea name="notas" rows="3" cols="40"></textarea>
+            </label>
+        </p>
+
+        <p>
+            <button type="submit" class="boton">Guardar equipo</button>
+        </p>
+    </form>
+</body>
+</html>

@@ -211,3 +211,61 @@ def numero_serie_existe(numero_serie, ignorar_id=None):
     encontrado = cursor.fetchone()
     conexion.close()
     return encontrado is not None
+def obtener_equipos(buscar="", tipo="", estado=""):
+    conexion = sqlite3.connect("inventario.db")
+    conexion.row_factory = sqlite3.Row
+    cursor = conexion.cursor()
+
+    # Empezamos con algo que SIEMPRE es verdad.
+    # Asi podemos ir pegando " AND ..." sin preocuparnos
+    # de si es el primer filtro o no.
+    consulta = "SELECT * FROM equipos WHERE 1=1"
+    parametros = []
+
+    # Busqueda por texto en varias columnas a la vez
+    if buscar:
+        consulta += """ AND (
+            nombre LIKE ?
+            OR marca LIKE ?
+            OR modelo LIKE ?
+            OR numero_serie LIKE ?
+            OR asignado_a LIKE ?
+        )"""
+        comodin = f"%{buscar}%"
+        parametros.extend([comodin, comodin, comodin, comodin, comodin])
+
+    # Filtro por tipo
+    if tipo:
+        consulta += " AND tipo = ?"
+        parametros.append(tipo)
+
+    # Filtro por estado
+    if estado:
+        consulta += " AND estado = ?"
+        parametros.append(estado)
+
+    consulta += " ORDER BY nombre"
+
+    cursor.execute(consulta, parametros)
+    equipos = cursor.fetchall()
+    conexion.close()
+    return equipos
+@app.route("/")
+def index():
+    # Leemos los filtros de la URL (query string).
+    # Si no vienen, quedan en "" (cadena vacia) y no filtran nada.
+    buscar = request.args.get("buscar", "")
+    tipo = request.args.get("tipo", "")
+    estado = request.args.get("estado", "")
+
+    equipos = obtener_equipos(buscar, tipo, estado)
+
+    # Pasamos tambien los filtros a la plantilla para que el
+    # formulario "recuerde" lo buscado tras darle a Buscar.
+    return render_template(
+        "index.html",
+        equipos=equipos,
+        buscar=buscar,
+        tipo=tipo,
+        estado=estado,
+    )

@@ -5,6 +5,7 @@
     <title>Inventario de Equipos</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='estilo.css') }}">
 </head>
+
 <body>
     <h1>📋 Inventario de Equipos</h1>
 
@@ -17,6 +18,33 @@
     {% endwith %}
 
     <p><a class="boton" href="{{ url_for('anadir') }}">➕ Añadir equipo</a></p>
+
+    <form method="GET" class="buscador">
+        <input type="text" name="buscar"
+               placeholder="Buscar por nombre, marca, modelo, nº serie o asignado..."
+               value="{{ buscar }}">
+
+        <select name="tipo">
+            <option value="">-- Todos los tipos --</option>
+            <option value="Portátil"  {% if tipo == "Portátil" %}selected{% endif %}>Portátil</option>
+            <option value="Sobremesa" {% if tipo == "Sobremesa" %}selected{% endif %}>Sobremesa</option>
+            <option value="Servidor"  {% if tipo == "Servidor" %}selected{% endif %}>Servidor</option>
+            <option value="Monitor"   {% if tipo == "Monitor" %}selected{% endif %}>Monitor</option>
+            <option value="Impresora" {% if tipo == "Impresora" %}selected{% endif %}>Impresora</option>
+            <option value="Red"       {% if tipo == "Red" %}selected{% endif %}>Red</option>
+        </select>
+
+        <select name="estado">
+            <option value="">-- Todos los estados --</option>
+            <option value="Operativo"     {% if estado == "Operativo" %}selected{% endif %}>Operativo</option>
+            <option value="En reparación" {% if estado == "En reparación" %}selected{% endif %}>En reparación</option>
+            <option value="De baja"       {% if estado == "De baja" %}selected{% endif %}>De baja</option>
+            <option value="Almacenado"    {% if estado == "Almacenado" %}selected{% endif %}>Almacenado</option>
+        </select>
+
+        <button type="submit">Buscar</button>
+        <a href="{{ url_for('index') }}">Limpiar</a>
+    </form>
 
     <p class="contador">Total de equipos: {{ equipos|length }}</p>
 
@@ -56,6 +84,10 @@
                         <button type="submit" class="boton boton-peligro">🗑️ Borrar</button>
                     </form>
                 </td>
+            </tr>
+            {% else %}
+            <tr>
+                <td colspan="10">No se encontraron equipos con esos filtros.</td>
             </tr>
             {% endfor %}
         </tbody>

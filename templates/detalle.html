@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ equipo["nombre"] }} — Detalle</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='estilo.css') }}">
+</head>
+<body>
+    <h1>🖥️ {{ equipo["nombre"] }}</h1>
+    <p><a class="volver" href="{{ url_for('index') }}">← Volver al inventario</a></p>
+
+    {% with mensajes = get_flashed_messages() %}
+        {% if mensajes %}
+            {% for mensaje in mensajes %}
+                <p class="flash">{{ mensaje }}</p>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    <h2>Datos del equipo</h2>
+    <ul class="ficha">
+        <li><strong>Tipo:</strong> {{ equipo["tipo"] }}</li>
+        <li><strong>Marca:</strong> {{ equipo["marca"] }}</li>
+        <li><strong>Modelo:</strong> {{ equipo["modelo"] }}</li>
+        <li><strong>Nº Serie:</strong> {{ equipo["numero_serie"] }}</li>
+        <li><strong>Procesador:</strong> {{ equipo["procesador"] }}</li>
+        <li><strong>RAM:</strong> {{ equipo["ram"] }}</li>
+        <li><strong>Almacenamiento:</strong> {{ equipo["almacenamiento"] }}</li>
+        <li><strong>Sistema operativo:</strong> {{ equipo["sistema_op"] }}</li>
+        <li><strong>Estado:</strong> {{ equipo["estado"] }}</li>
+        <li><strong>Asignado a:</strong> {{ equipo["asignado_a"] }}</li>
+        <li><strong>Ubicación:</strong> {{ equipo["ubicacion"] }}</li>
+    </ul>
+
+    <h2>Programas instalados ({{ programas|length }})</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Nombre</th><th>Versión</th><th>Licencia</th><th>Notas</th><th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for programa in programas %}
+            <tr>
+                <td>{{ programa["nombre"] }}</td>
+                <td>{{ programa["version"] }}</td>
+                <td>{{ programa["licencia"] }}</td>
+                <td>{{ programa["notas"] }}</td>
+                <td>
+                    <form method="POST"
+                          action="{{ url_for('borrar_programa', equipo_id=equipo['id'], programa_id=programa['id']) }}"
+                          style="display:inline;"
+                          onsubmit="return confirm('¿Borrar este programa?');">
+                        <button type="submit" class="boton boton-peligro">🗑️ Borrar</button>
+                    </form>
+                </td>
+            </tr>
+            {% else %}
+            <tr><td colspan="5">Este equipo no tiene programas registrados.</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <h2>Añadir programa</h2>
+    <form method="POST" action="{{ url_for('anadir_programa', equipo_id=equipo['id']) }}" class="form-programa">
+        <input type="text" name="nombre" placeholder="Nombre (obligatorio)" required>
+        <input type="text" name="version" placeholder="Versión">
+        <input type="text" name="licencia" placeholder="Licencia (OEM, libre, nº...)">
+        <input type="text" name="notas" placeholder="Notas">
+        <button type="submit" class="boton">➕ Añadir programa</button>
+    </form>
+</body>
+</html>

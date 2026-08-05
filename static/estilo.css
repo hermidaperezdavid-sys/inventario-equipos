@@ -172,3 +172,18 @@ textarea:focus {
 }
 
 .buscador a:hover { text-decoration: underline; }
+.ficha { list-style: none; padding: 0; }
+.ficha li { padding: 4px 0; border-bottom: 1px solid #eee; }
+
+.form-programa {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: center;
+    margin-top: 10px;
+}
+.form-programa input {
+    padding: 8px 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}

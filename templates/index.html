@@ -67,7 +67,7 @@
             {% for equipo in equipos %}
             <tr>
                 <td>{{ equipo["id"] }}</td>
-                <td>{{ equipo["nombre"] }}</td>
+                <td><a href="{{ url_for('detalle', id=equipo['id']) }}">{{ equipo["nombre"] }}</a></td>
                 <td>{{ equipo["tipo"] }}</td>
                 <td>{{ equipo["marca"] }}</td>
                 <td>{{ equipo["modelo"] }}</td>
